@@ -79,8 +79,6 @@ class Board(GridLayout):
             Returns winning symbol or None
         """
 
-        print type(self)
-        print self.grid
         values = [[col.text for col in row] for row in self.grid]
 
         # check horizontal
@@ -107,11 +105,23 @@ class Board(GridLayout):
         if result:
             return result
 
+        #if no coins left then the other player wins
         if self.game_board.player1.coins_left == 0:
             return self.game_board.player2.name
         
         if self.game_board.player2.coins_left == 0:
             return self.game_board.player1.name
+        
+        # if board is complete and no result => player with higher coins wins
+        
+        print values
+        for row in values:
+            for column in row:
+                print column
+                if column not in ['X', 'O']:
+                    return None
+        else:
+            return self.game_board.player1.name if self.game_board.player1.coins_left > self.game_board.player2.coins_left else self.game_board.player2.name
         
         return None
 
